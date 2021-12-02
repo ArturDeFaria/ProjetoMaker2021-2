@@ -64,6 +64,9 @@ public abstract class Financeiro {
         this.total = total;
     }
 
+    public Financeiro(){
+    }
+    
     public Financeiro(String CodOrdem, String data, Double frete, 
             ArrayList<Produtos> listaProdutos, Double total) {
         this.CodOrdem = CodOrdem;

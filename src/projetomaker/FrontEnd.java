@@ -21,9 +21,10 @@ public class FrontEnd extends javax.swing.JFrame {
     private static int carrinhoI = 0;
     private static String tipo = "";
     private static ArrayList<String> listaCarrinho = new ArrayList<String>();
+    private static int carrinhoJ = 0;
 
     /**
-     * Creates new form eshop
+     * Creates new form e-shop
      */
     public FrontEnd() {
         initComponents();
@@ -261,9 +262,7 @@ public class FrontEnd extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 564, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 21, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 581, Short.MAX_VALUE)
         );
 
         getAccessibleContext().setAccessibleName("usuario");
@@ -310,6 +309,7 @@ public class FrontEnd extends javax.swing.JFrame {
             jLista.setSelectedIndex(-1);
 
         }
+        jLista.setSelectedIndex(-1);
     }//GEN-LAST:event_jmMonitorMouseClicked
 
     private void jmMouseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jmMouseMouseClicked
@@ -342,6 +342,7 @@ public class FrontEnd extends javax.swing.JFrame {
             jLista.setListData(vet);
             jLista.setSelectedIndex(-1);
         }
+        jLista.setSelectedIndex(-1);
 
     }//GEN-LAST:event_jmMouseMouseClicked
 
@@ -377,53 +378,141 @@ public class FrontEnd extends javax.swing.JFrame {
             jLista.setListData(vet);
             jLista.setSelectedIndex(-1);
         }
+        jLista.setSelectedIndex(-1);
     }//GEN-LAST:event_jmTecladoMouseClicked
 
     private void jListaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListaMouseClicked
         // TODO add your handling code here:
-        if (!"".equals(tipo) && !"CARRINHO".equals(tipo) && jLista.getSelectedValue()!=null) {
-            StringBuilder sb = new StringBuilder();
+        int aux = jLista.getSelectedIndex();
+        String[] vet = new String[carrinhoJ];
+        for (int i = 0; i < carrinhoJ; i++) {
+            jLista.setSelectedIndex(i);
+            vet[i] = jLista.getSelectedValue();
+            System.out.println(vet[i]);
+        }
+        jLista.setSelectedIndex(aux);
 
-            sb.append(String.format("%10s|", tipo));
-            sb.append(jLista.getSelectedValue());
-            String nome = jLista.getSelectedValue().substring(11, 21);
-            nome = nome.trim();
-            String[] opcao = {"Sim", "Não"};
-            String msg = "Incluir "
-                    + nome
-                    + " no carrinho?";
-            int escolha = JOptionPane.showOptionDialog(null, msg,
-                    "Carrinho", 0, JOptionPane.QUESTION_MESSAGE, null, opcao, "Sim");
+        if (!"".equals(tipo) && !"CARRINHO".equals(tipo)) {
+            int a = jLista.getSelectedIndex();
+            if (a > -1) {
+                StringBuilder sb = new StringBuilder();
+                sb.append(String.format("%10s|", tipo));
+                sb.append(jLista.getSelectedValue());
+                String nome = jLista.getSelectedValue().substring(11, 21);
+                nome = nome.trim();
+                String[] opcao = {"Sim", "Não"};
+                String msg = "Incluir "
+                        + nome
+                        + " no carrinho?";
+                int escolha = JOptionPane.showOptionDialog(null, msg,
+                        "Carrinho", 0, JOptionPane.QUESTION_MESSAGE, null, opcao, "Sim");
 
-            if (escolha == 0) {
-                //System.out.println(sb);
-                carrinhoI++;
-                jmKart.setText(Integer.toString(carrinhoI));
-                listaCarrinho.add(sb.toString());
-                System.out.println(listaCarrinho.toString());
+                if (escolha == 0) {
+                    //System.out.println(sb);
+                    carrinhoI++;
+                    jmKart.setText(Integer.toString(carrinhoI));
+                    listaCarrinho.add(sb.toString());
+                    System.out.println(listaCarrinho.toString());
 
+                }
             }
         } else if ("CARRINHO".equals(tipo)) {
-            String nome = jLista.getSelectedValue().substring(22, 32);
-            nome = nome.trim();
-            String[] opcao = {"Remover", "Adicionar outro", "Mostrar Detalhes",
-                "Fechar"};
-            String msg = "Item do carrinho " + nome;
-            int escolha = JOptionPane.showOptionDialog(null, msg,
-                    "Carrinho", 0, JOptionPane.QUESTION_MESSAGE, null, opcao,
-                    "Fechar");
-            switch (escolha) {
-                case 0:
-                    break;
-                case 1:
-                    break;
-                case 2:
-                    msg = listaCarrinho.get(jLista.getSelectedIndex());
-                    JOptionPane.showConfirmDialog(null, msg);
-                    break;
-                default:
-                    break;
 
+            if (jLista.getSelectedValue() != null) {
+                int t = -1;
+                String tipo, codigo, nome, marca, preco;
+                String frequencia = "", polegadas = "", entradas = "",dpi=""
+                        ,peso="",TIPO="",COR="",RGB="";
+                tipo = listaCarrinho.get(jLista.getSelectedIndex())
+                        .substring(0, 10);
+                codigo = listaCarrinho.get(jLista.getSelectedIndex())
+                        .substring(11, 21);
+                System.out.println(codigo);
+                nome = listaCarrinho.get(jLista.getSelectedIndex())
+                        .substring(22, 32);
+                marca = listaCarrinho.get(jLista.getSelectedIndex())
+                        .substring(33, 43);
+                preco = listaCarrinho.get(jLista.getSelectedIndex())
+                        .substring(44, 54);
+                String[] vMsg = new String[3];
+                if (tipo.trim().equals("MONITOR")) {
+                    frequencia = listaCarrinho.get(jLista.getSelectedIndex())
+                            .substring(55, 65);
+                    polegadas = listaCarrinho.get(jLista.getSelectedIndex())
+                            .substring(66, 76);
+                    entradas = listaCarrinho.get(jLista.getSelectedIndex())
+                            .substring(77, 87);
+                    t = 0;
+                    vMsg[0] = String.format("%10s| %10s| %10s| %10s| %10s"
+                            + "| %10s| %10s",
+                            "CODIGO=" + codigo, " NOME=" + nome, " MARCA=" 
+                            + marca,"PRECO=" + preco,"FREQUENCIA=" + frequencia,
+                            " POLEGADAS=" + polegadas, "ENTRADAS" + entradas);
+                } else if (tipo.trim().equals("MOUSE")) {
+                    dpi = listaCarrinho.get(jLista.getSelectedIndex())
+                            .substring(55, 65);
+                    peso = listaCarrinho.get(jLista.getSelectedIndex())
+                            .substring(66, 76);
+                    t = 1;
+                    vMsg[1] = String.format("%10s| %10s| %10s| %10s| %10s| %10s"
+                            ,"CODIGO=" + codigo, "NOME=" + nome, 
+                            "MARCA=" + marca,"PRECO=" + preco, "DPI=" + dpi,
+                            "PESO=" + peso);
+                       
+                    
+                } else if (tipo.trim().equals("TECLADO")) {
+                    TIPO = listaCarrinho.get(jLista.getSelectedIndex())
+                            .substring(55, 65);
+                    COR = listaCarrinho.get(jLista.getSelectedIndex())
+                            .substring(66, 76);
+                    RGB = listaCarrinho.get(jLista.getSelectedIndex())
+                            .substring(77, 87);
+                    t = 2;
+                    vMsg[2] = String.format("%10s| %10s| %10s| %10s| %10s"
+                            + "| %10s| %10s",
+                            "CODIGO=" + codigo, " NOME=" + nome, " MARCA=" 
+                            + marca,"PRECO=" + preco,"TIPO=" + TIPO,
+                            " COR=" + COR, "RGB" + RGB);
+
+                }
+
+                int qtd = Integer.parseInt(
+                        (jLista.getSelectedValue().substring(56, 60)).trim()
+                );
+                String[] opcao = {"Remover", "Adicionar outro", "Mostrar Detalhes",
+                    "Fechar"};
+                String msg = "Item do carrinho " + nome.trim();
+                String s = vet[jLista.getSelectedIndex()]
+                        .substring(0, 56);
+                int escolha = JOptionPane.showOptionDialog(null, msg,
+                        "Carrinho", 0, JOptionPane.QUESTION_MESSAGE, null, opcao,
+                        "Fechar");
+
+                switch (escolha) {
+                    case 0://remover
+                        if (qtd > 0) {
+                            qtd--;
+                            s = String.format("%56s%4s", s, qtd);
+                            vet[jLista.getSelectedIndex()] = s;
+                            jLista.removeAll();
+                            jLista.setListData(vet);
+                        }
+
+                        break;
+                    case 1://adicionar outro
+                        qtd++;
+                        s = String.format("%56s%4s", s, qtd);
+                        vet[jLista.getSelectedIndex()] = s;
+                        jLista.removeAll();
+                        jLista.setListData(vet);
+                        break;
+                    case 2://mostrar detalhes                              
+                        JOptionPane.showMessageDialog(null, vMsg[t]);
+                        break;
+                    default://fechar
+                        break;
+
+                }
             }
         }
     }//GEN-LAST:event_jListaMouseClicked
@@ -444,56 +533,63 @@ public class FrontEnd extends javax.swing.JFrame {
     }
     private void jmKartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jmKartMouseClicked
         // TODO add your handling code here:
-        
-            if (carrinhoI > 0) {
-                tipo = "CARRINHO";
-                String linha = String.format("%10s|%10s|%10s|%10s|%10s|%10s",
-                        "PRODUTO", "CODIGO", "NOME", "MARCA", "PRECO", "Qtd");
-                lblTitulo.setFont(new Font("Courier New", Font.PLAIN, 16));
-                lblTitulo.setText(linha);
-                // Vetor para preparação dos elementos da lista
-                String[] vet = new String[listaCarrinho.size()];
-                // Carrega todos os elementos do ArrayList no vetor            
-                //contando os duplicados
-                int[][] aux = new int[listaCarrinho.size()][listaCarrinho.size()];
-                int[] qtd = new int[listaCarrinho.size()];
-                for (int i = 0; i < listaCarrinho.size(); i++) {
-                    aux[i][i] = 0;
-                    for (int j = 0; j < listaCarrinho.size(); j++) {
-                        if (listaCarrinho.get(i).equals(listaCarrinho.get(j))) {
-                            aux[i][j]++;
-                        }
-                    }
-                }
-                for (int i = 0; i < listaCarrinho.size(); i++) {
-                    qtd[i] = 0;
-                    for (int j = 0; j < listaCarrinho.size(); j++) {
-                        qtd[i] += aux[i][j];
-                    }
-                }
-                //verificado duplicados
-                //vet[0] = listaCarrinho.get(0);
-                int[] vetI = new int[listaCarrinho.size()];
-                for (int i = 0; i < listaCarrinho.size(); i++) {
-                    if (existe(vet, listaCarrinho.get(i).substring(0, 59)) < 1) {
-                        vet[i] = listaCarrinho.get(i).substring(0, 59);
-                    } else {
-                        vetI[i] = qtd[i];
-                    }
-                }
-                String[] vetFinal = new String[listaCarrinho.size()];
-                for (int i = 0; i < listaCarrinho.size(); i++) {
-                    if (vet[i] != null) {
-                        vetFinal[i] = vet[i] + qtd[i];
-                    }
-                }
 
-                // Evita que os dados fiquem fora de ordem
-                jLista.setFont(new Font("Courier New", Font.PLAIN, 16));
-                jLista.setListData(vetFinal);
-                jLista.setSelectedIndex(-1);
+        if (carrinhoI > 0) {
+
+            String linha = String.format("%10s|%10s|%10s|%10s|%10s|%10s",
+                    "PRODUTO", "CODIGO", "NOME", "MARCA", "PRECO", "QTD");
+            lblTitulo.setFont(new Font("Courier New", Font.PLAIN, 16));
+            lblTitulo.setText(linha);
+            // Vetor para preparação dos elementos da lista
+            String[] vet = new String[listaCarrinho.size()];
+            // Carrega todos os elementos do ArrayList no vetor            
+            //contando os duplicados
+            int[][] aux = new int[listaCarrinho.size()][listaCarrinho.size()];
+            int[] qtd = new int[listaCarrinho.size()];
+            for (int i = 0; i < listaCarrinho.size(); i++) {
+                aux[i][i] = 0;
+                for (int j = 0; j < listaCarrinho.size(); j++) {
+                    if (listaCarrinho.get(i).equals(listaCarrinho.get(j))) {
+                        aux[i][j]++;
+                    }
+                }
             }
-        
+            for (int i = 0; i < listaCarrinho.size(); i++) {
+                qtd[i] = 0;
+                for (int j = 0; j < listaCarrinho.size(); j++) {
+                    qtd[i] += aux[i][j];
+                }
+            }
+            //verificado duplicados
+            //vet[0] = listaCarrinho.get(0);
+            int[] vetI = new int[listaCarrinho.size()];
+            for (int i = 0; i < listaCarrinho.size(); i++) {
+                if (existe(vet, listaCarrinho.get(i).substring(0, 59)) < 1) {
+                    vet[i] = listaCarrinho.get(i).substring(0, 59);
+                } else {
+                    vetI[i] = qtd[i];
+                }
+            }
+            String[] vetFinal = new String[listaCarrinho.size()];
+            carrinhoJ = 0;
+            for (int i = 0; i < listaCarrinho.size(); i++) {
+                if (vet[i] != null) {
+                    vetFinal[i] = vet[i] + qtd[i];
+                    carrinhoJ++;
+                    //System.out.println(">" + vetFinal[i]);
+                }
+            }
+
+            // Evita que os dados fiquem fora de ordem
+            jLista.removeAll();
+            jLista.setFont(new Font("Courier New", Font.PLAIN, 16));
+            jLista.setListData(vetFinal);
+            tipo = "CARRINHO";
+            jLista.setSelectedIndex(0);
+
+        }
+        jLista.setSelectedIndex(-1);
+
     }//GEN-LAST:event_jmKartMouseClicked
 
     private void jmiLimparKartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiLimparKartActionPerformed
@@ -504,6 +600,7 @@ public class FrontEnd extends javax.swing.JFrame {
         carrinhoI = 0;
         jmKart.setText("Vazio");
         tipo = "";
+        jLista.setSelectedIndex(-1);
     }//GEN-LAST:event_jmiLimparKartActionPerformed
 
     /**

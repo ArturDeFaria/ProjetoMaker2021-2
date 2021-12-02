@@ -1,8 +1,10 @@
 package administativo;
 
+import java.util.ArrayList;
 import java.util.Scanner;
+import produtos.Produtos;
 
-public class compra {
+public class compra extends Financeiro{
     
     int codigo, codigoProduto, codigoFornecedor;
     private String nome, fornecedor;
@@ -89,5 +91,10 @@ public class compra {
     setFornecedor(ent.nextLine());
     System.out.println("Quantidade: ");
     setQtd(Integer.parseInt(ent.nextLine()));
+    }
+
+    @Override
+    public ArrayList<Produtos> Carrinho(Produtos p) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
